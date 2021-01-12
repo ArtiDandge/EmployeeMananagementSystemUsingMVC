@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/css/Registration.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script type="text/javascript" src="/js/RegistrationFormValidation.js"></script>
+</head>
+
+<body style=" background-color: #F5F5F5">
+    <div class="row justify-content-center mr-auto">
+        <h2 style=" margin-bottom: 20px; margin-top: 50px;">Employee Management System</h2>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header" style="margin-top: initial; background-color: #20c997">Registration</div>
+                <div class="card-body">
+                    <form name="registrationForm">
+                        <div class="form-group row">
+                            <label for="Id" class="col-md-4 col-form-label text-md-left">Employee Id</label>
+                            <div class="col-md-6">
+                                <input type="text" id="employeeId" class="form-control" name="employeeId" placeholder="Enter Your Id">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="first-name" class="col-md-4 col-form-label text-md-left">First Name</label>
+                            <div class="col-md-6">
+                                <input type="text" id="firstName" class="form-control" name="firstName" placeholder="Enter valid first name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="lastName" class="col-md-4 col-form-label text-md-left">Last Name</label>
+                            <div class="col-md-6">
+                                <input type="text" id="lastName" class="form-control" name="lastName" placeholder="Enter valid last name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="address" class="col-md-4 col-form-label text-md-left">Address</label>
+                            <div class="col-md-6">
+                                <input type="text" id="address" class="form-control" name="address" placeholder="Enter valid address">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="city" class="col-md-4 col-form-label text-md-left">City</label>
+                            <div class="col-md-6">
+                                <input type="text" id="city" class="form-control" name="city" placeholder="Enter valid city name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="state" class="col-md-4 col-form-label text-md-left">State</label>
+                            <div class="col-md-6">
+                                <input type="text" id="state" class="form-control" name="state" placeholder="Enter valid state name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="zip" class="col-md-4 col-form-label text-md-left">Zip</label>
+                            <div class="col-md-6">
+                                <input type="text" id="zip" class="form-control" name="zip" placeholder="Enter valid zip code">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="phoneNumber" class="col-md-4 col-form-label text-md-left">Phone Number</label>
+                            <div class="col-md-6">
+                                <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" placeholder="Enter valid phone number">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email_address" class="col-md-4 col-form-label text-md-left">Email Id</label>
+                            <div class="col-md-6">
+                                <input type="text" id="email" class="form-control" name="email" placeholder="Enter valid email address">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-left">Password</label>
+                            <div class="col-md-6">
+                                <input type="password" id="password" class="form-control" name="password" placeholder="Create password" onkeyup='check();'>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-sm-left">Confirm Password</label>
+                            <div class="col-md-6">
+                                <input type="password" id="Confirmpassword" class="form-control" name="Confirmpassword" placeholder="Confirm password" onkeyup='check();'>
+                                <span id='message'></span>
+                            </div>
+                            <a href="ForgotPassword.html" style="margin-left: 260px; margin-top: 10px;"></a>
+                        </div>
+                        <div class="buttonContainer">
+                            <a href="Login.html">Login Instead</a>
+                            <!--<button type="submit" class="btn btn mr-4" id="btnSubmit" onclick="validate();">Register</button>-->
+                            <input class="btn btn-primary" name="ConfirmRegistration" id="btnRegister" value="Save" type="button">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table id="EmplyeeTable" class="table table-bordered table-striped table-responsive table-hover">
+        <thead>
+            <tr>
+                <th align="left" class="productth">ID</th>
+                <th align="left" class="productth">Employee First Name</th>
+                <th align="left" class="productth">Employee Last Name</th>
+                <th align="left" class="productth">Address</th>
+                <th align="left" class="productth">City</th>
+                <th align="left" class="productth">State</th>
+                <th align="left" class="productth">Zip</th>
+                <th align="left" class="productth">Phone Number</th>
+                <th align="left" class="productth">Email</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</body>
+</html>
+
+@section Scripts
+{
+<script type="text/javascript">
+    $(function () {
+        LoadData();
+        $("#btnRegister").click(function () {
+            alert("");
+            var employee = {};
+            employee.EmployeeId = $("#employeeId").val();
+            employee.FirstName = $("#firstName").val();
+            employee.LastName = $("#lastName").val();
+            employee.Address = $("#address").val();
+            employee.City = $("#city").val();
+            employee.State = $("#state").val();
+            employee.Zip = $("#zip").val();
+            employee.PhoneNumber = $("#phoneNumber").val();
+            employee.Email = $("#email").val();
+            employee.Password = $("#password").val();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CreateEmployee")',
+                data: '{employee: ' + JSON.stringify(employee) + '}',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    alert("Data has been added successfully.");
+                    window.location.href = "HomePage.html";
+                    return (true);
+                },
+                error: function () {
+                    alert("Error while inserting data");
+                }
+            });
+            return false;
+        });
+    });
+    function LoadData() {
+        $("#EmplyeeTable tbody tr").remove();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetEmployee")',
+            dataType: 'json',
+            data: { id: '' },
+            success: function (data) {
+                var items = '';
+                $.each(data, function (i, item) {
+                    var rows = "<tr>"
+                        + "<td class='prtoducttd' > " + item.EmployeeId + "</td > "
+                        + "< td class='prtoducttd' > " + item.FirstName + "</td > "
+                        + "< td class='prtoducttd' > " + item.LastName + "</td > "
+                        + "< td class='prtoducttd' > " + item.Address + "</td > "
+                        + "< td class='prtoducttd'>" + item.City + "</td>"
+                        + "< td class='prtoducttd' > " + item.State + "</td > "
+                        + "< td class='prtoducttd' > " + item.Zip + "</td > "
+                        + "< td class='prtoducttd' > " + item.PhoneNumber + "</td > "
+                        + "< td class='prtoducttd' > " + item.Email + "</td > "
+                        + "< td class='prtoducttd' > " + item.Password + "</td > "
+                        + "</tr >";
+
+                    $('#EmplyeeTable tbody').append(rows);
+                });
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
+            }
+        });
+        return false;
+    }
+</script>
+}
