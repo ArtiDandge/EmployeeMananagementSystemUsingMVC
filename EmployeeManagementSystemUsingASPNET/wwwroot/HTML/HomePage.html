@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/Home.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body style="height: 900px;">
+    <div class="header" style=" height: 100px; background-color: #20c997; margin-bottom: 20px;">
+        <h1 style="text-align:center; font-family: Arial, Helvetica, sans-serif;">Employee Management System</h1>
+        <div class="navbarMenu" style="text-align:center; font-family: Arial, Helvetica, sans-serif;">
+            <a href="#">Home</a>
+            <a href="ResetPassword.html">Reset Password</a>
+            <a href="Login.html">Login</a>
+            <a href="Login.html">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <table class="table" name="EmployeeTable" id="EmplyeeTable">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Arti</td>
+                    <td>Dandge</td>
+                    <td>Pune</td>
+                    <td>Pune</td>
+                    <td>Maharashtra</td>
+                    <td>411001</td>
+                    <td>8765432109</td>
+                    <td>arti@gmail.com</td>
+                    <td>arti12234</td>
+                    <td>
+                        <a href="#"><button type="button" class="btn btn-primary">Edit</button></a>
+                        <a href="#"><button type="button" class="btn btn-danger">Delete</button></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Komal</td>
+                    <td>Dandge</td>
+                    <td>Mumbai</td>
+                    <td>Mumbai</td>
+                    <td>Maharashtra</td>
+                    <td>411004</td>
+                    <td>7765432109</td>
+                    <td>komal@gmail.com</td>
+                    <td>komal12234</td>
+                    <td>
+                        <a href="#"><button type="button" id="edit" class="btn btn-primary">Edit</button></a>
+                        <a href="#"><button type="button" id="delete" class="btn btn-danger">Delete</button></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

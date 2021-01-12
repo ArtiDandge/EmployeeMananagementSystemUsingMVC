@@ -1,0 +1,41 @@
+﻿body {
+    font-size: .9rem;
+    font-weight: 400;
+    text-align: left;
+    background-color: #E8E8E8;
+    min-height: 90%;
+}
+
+html {
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    background-color: #F5F5F5;
+}
+
+.navbar {
+    margin: 20px;
+    height: 40px;
+    text-align: center;
+}
+
+.table {
+    margin: auto;
+    margin-top: 50px;
+}
+
+thead, th, tbody {
+    text-align: center !important;
+}
+
+button {
+    background-color: #20c997;
+    color: white;
+    width: 90px;
+    height: 35px;
+    padding: 12px 12px;
+    outline: none !important;
+    box-shadow: none !important;
+}
