@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-header" style="margin-top: initial; background-color: #20c997">Registration</div>
                 <div class="card-body">
-                    <form name="registrationForm">
+                    <form name="registrationForm" onsubmit="return (validate());">
                         <div class="form-group row">
                             <label for="Id" class="col-md-4 col-form-label text-md-left">Employee Id</label>
                             <div class="col-md-6">
@@ -86,31 +86,13 @@
                         </div>
                         <div class="buttonContainer">
                             <a href="Login.html">Login Instead</a>
-                            <!--<button type="submit" class="btn btn mr-4" id="btnSubmit" onclick="validate();">Register</button>-->
-                            <input class="btn btn-primary" name="ConfirmRegistration" id="btnRegister" value="Save" type="button">
+                            <button type="submit" class="btn btn mr-4" id="btnRegister">Register</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <table id="EmplyeeTable" class="table table-bordered table-striped table-responsive table-hover">
-        <thead>
-            <tr>
-                <th align="left" class="productth">ID</th>
-                <th align="left" class="productth">Employee First Name</th>
-                <th align="left" class="productth">Employee Last Name</th>
-                <th align="left" class="productth">Address</th>
-                <th align="left" class="productth">City</th>
-                <th align="left" class="productth">State</th>
-                <th align="left" class="productth">Zip</th>
-                <th align="left" class="productth">Phone Number</th>
-                <th align="left" class="productth">Email</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
 </body>
 </html>
 
@@ -141,7 +123,7 @@
                 contentType: "application/json; charset=utf-8",
                 success: function () {
                     alert("Data has been added successfully.");
-                    window.location.href = "HomePage.html";
+                    window.location.href = "https://localhost:44358/HTML/Login.html";
                     return (true);
                 },
                 error: function () {

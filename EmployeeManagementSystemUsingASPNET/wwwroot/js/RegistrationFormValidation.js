@@ -52,6 +52,8 @@ function validate() {
     }
 
     alert("Registration Successfull !");
+    window.location.href = "https://localhost:44358/HTML/Login.html";
+    return true;
 }
 
 var check = function () {
