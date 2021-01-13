@@ -17,12 +17,6 @@
                 <div class="card-body">
                     <form name="registrationForm" onsubmit="return (validate());">
                         <div class="form-group row">
-                            <label for="Id" class="col-md-4 col-form-label text-md-left">Employee Id</label>
-                            <div class="col-md-6">
-                                <input type="text" id="employeeId" class="form-control" name="employeeId" placeholder="Enter Your Id">
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label for="first-name" class="col-md-4 col-form-label text-md-left">First Name</label>
                             <div class="col-md-6">
                                 <input type="text" id="firstName" class="form-control" name="firstName" placeholder="Enter valid first name">
@@ -55,7 +49,7 @@
                         <div class="form-group row">
                             <label for="zip" class="col-md-4 col-form-label text-md-left">Zip</label>
                             <div class="col-md-6">
-                                <input type="text" id="zip" class="form-control" name="zip" placeholder="Enter valid zip code">
+                                <input type="number" id="zip" class="form-control" name="zip" placeholder="Enter valid zip code">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -93,80 +87,90 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnRegister").click(function () {
+                var nameRegex = /^[A-Z]{1}[a-zA-Z]{2,}/;
+                var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                var mobileRegex = /^(?:(?:\+|0{0,2})91(\s*|[\-])?|[0]?)?([6789]\d{2}([ -]?)\d{3}([ -]?)\d{4})$/
+                var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+
+                if (!nameRegex.test(document.registrationForm.firstName.value)) {
+                    alert("Please provide your valid  first name! Name should have atleast 3 characters");
+                    document.registrationForm.firstName.focus();
+                    return false;
+                }
+                if (!nameRegex.test(document.registrationForm.lastName.value)) {
+                    alert("Please provide your valid  last name! Name should have atleast 3 characters");
+                    document.registrationForm.lastName.focus();
+                    return false;
+                }
+                if (document.registrationForm.address.value == "") {
+                    alert("Please provide your valid  City!");
+                    return false;
+                }
+                if (document.registrationForm.city.value == "") {
+                    alert("Please provide your valid  City!");
+                    return false;
+                }
+                if (document.registrationForm.state.value == "") {
+                    alert("Please provide your valid  State!");
+                    return false;
+                }
+                if (document.registrationForm.zip.value == "" ||
+                    isNaN(document.registrationForm.zip.value) ||
+                    document.registrationForm.zip.value.length != 6) {
+                    alert("Please provide a valid zip");
+                    document.registrationForm.zip.focus();
+                    return false;
+                }
+                if (!mobileRegex.test(document.registrationForm.phoneNumber.value)) {
+                    alert("Please provide a phone Number in the format of 10 digit mobile number. ");
+                    document.registrationForm.phoneNumber.focus();
+                    return false;
+                }
+                if (!emailRegex.test(document.registrationForm.email.value)) {
+                    alert("Please provide valid Email!");
+                    document.registrationForm.email.focus();
+                    return false;
+                }
+                if (!passwordRegex.test(document.registrationForm.password.value)) {
+                    alert("Please provide valid password in given format");
+                    document.registrationForm.password.focus();
+                    return false;
+                }
+                var employee = {};
+                employee.FirstName = $("#firstName").val();
+                employee.LastName = $("#lastName").val();
+                employee.Address = $("#address").val();
+                employee.City = $("#city").val();
+                employee.State = $("#state").val();
+                employee.Zip = $("#zip").val();
+                employee.PhoneNumber = $("#phoneNumber").val();
+                employee.Email = $("#email").val();
+                employee.Password = $("#password").val();
+                console.log(JSON.stringify(employee));
+                $.ajax({
+                    type: "POST",
+                    url: "/api/addEmployee",
+                    data: JSON.stringify(employee),
+                    dataType: "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    processData: true,
+                    success: function () {
+                        alert("Data has been added successfully.");
+                        return true;
+                    },
+                    error: function () {
+                        alert("Error while inserting data");
+                    }
+                });
+                return false;
+            });
+        });
+
+    </script>
 </body>
 </html>
 
-@section Scripts
-{
-<script type="text/javascript">
-    $(function () {
-        LoadData();
-        $("#btnRegister").click(function () {
-            alert("");
-            var employee = {};
-            employee.EmployeeId = $("#employeeId").val();
-            employee.FirstName = $("#firstName").val();
-            employee.LastName = $("#lastName").val();
-            employee.Address = $("#address").val();
-            employee.City = $("#city").val();
-            employee.State = $("#state").val();
-            employee.Zip = $("#zip").val();
-            employee.PhoneNumber = $("#phoneNumber").val();
-            employee.Email = $("#email").val();
-            employee.Password = $("#password").val();
-
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("CreateEmployee")',
-                data: '{employee: ' + JSON.stringify(employee) + '}',
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function () {
-                    alert("Data has been added successfully.");
-                    window.location.href = "https://localhost:44358/HTML/Login.html";
-                    return (true);
-                },
-                error: function () {
-                    alert("Error while inserting data");
-                }
-            });
-            return false;
-        });
-    });
-    function LoadData() {
-        $("#EmplyeeTable tbody tr").remove();
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("GetEmployee")',
-            dataType: 'json',
-            data: { id: '' },
-            success: function (data) {
-                var items = '';
-                $.each(data, function (i, item) {
-                    var rows = "<tr>"
-                        + "<td class='prtoducttd' > " + item.EmployeeId + "</td > "
-                        + "< td class='prtoducttd' > " + item.FirstName + "</td > "
-                        + "< td class='prtoducttd' > " + item.LastName + "</td > "
-                        + "< td class='prtoducttd' > " + item.Address + "</td > "
-                        + "< td class='prtoducttd'>" + item.City + "</td>"
-                        + "< td class='prtoducttd' > " + item.State + "</td > "
-                        + "< td class='prtoducttd' > " + item.Zip + "</td > "
-                        + "< td class='prtoducttd' > " + item.PhoneNumber + "</td > "
-                        + "< td class='prtoducttd' > " + item.Email + "</td > "
-                        + "< td class='prtoducttd' > " + item.Password + "</td > "
-                        + "</tr >";
-
-                    $('#EmplyeeTable tbody').append(rows);
-                });
-            },
-            error: function (ex) {
-                var r = jQuery.parseJSON(response.responseText);
-                alert("Message: " + r.Message);
-                alert("StackTrace: " + r.StackTrace);
-                alert("ExceptionType: " + r.ExceptionType);
-            }
-        });
-        return false;
-    }
-</script>
-}

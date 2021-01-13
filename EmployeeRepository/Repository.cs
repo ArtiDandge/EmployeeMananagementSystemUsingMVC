@@ -3,27 +3,30 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using EmployeeModel.Models;
-using System.Web.Mvc;
 
 namespace EmployeeRepository
 {
-    public class Repository : Controller, IRepository
+    public class Repository :  IRepository
     {
-        EmployeeContext employeeContext = new EmployeeContext();
-        public ActionResult CreateEmployee(Employee employee)
+        EmployeeContext employeeContext;
+        public Repository(EmployeeContext employeeContext)
         {
-            employeeContext.Employees.Add(employee);
-            employeeContext.SaveChanges();
+            this.employeeContext = employeeContext;
+        }
+        
+        public string CreateEmployee(Employee employee)
+        {
+            this.employeeContext.Employees.Add(employee);
+            this.employeeContext.SaveChanges();
             string message = "SUCCESS";
-            return Json(new { Message = message, JsonRequestBehavior.AllowGet });
+            return message;
         }
 
-        [HttpGet]
-        public JsonResult GetEmployee(string id)
+        public IEnumerable<Employee> GetEmployee(string id)
         {
             List<Employee> employees = new List<Employee>();
             employees = employeeContext.Employees.ToList();
-            return Json(employees, JsonRequestBehavior.AllowGet);
+            return employees;
         }
 
     }

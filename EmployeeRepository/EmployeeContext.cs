@@ -8,16 +8,12 @@ namespace EmployeeRepository
 {
     public class EmployeeContext : DbContext
     {
-        public DbSet<Employee> Employees { get; set; }
-        public EmployeeContext()
-        {
-
-        }
-
         public EmployeeContext(DbContextOptions<EmployeeContext> options)
         : base(options)
         {
 
         }
+        public DbSet<Employee> Employees { get; set; }
+
     }
 }

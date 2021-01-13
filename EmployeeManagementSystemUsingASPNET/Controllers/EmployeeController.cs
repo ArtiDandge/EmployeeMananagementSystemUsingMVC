@@ -1,32 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using EmployeeRepository;
 using EmployeeModel.Models;
 
 namespace EmployeeManagementSystemUsingASPNET.Controllers
 {
+    [Produces("application/json")]
+    [ApiController]
     public class EmployeeController : Controller
     {
-        private IRepository repository;
-        Repository EmpRepository = new Repository();
+        private readonly IRepository repository;
         public EmployeeController(IRepository repository)
         {
             this.repository = repository;
         }
 
-        public IActionResult Index()
+        [HttpPost]
+        [Route("api/addEmployee")]
+        public IActionResult AddEmployee([FromBody]Employee employee)
         {
-            return View();
+            var result = this.repository.CreateEmployee(employee);
+            if (result.Equals("SUCCESS"))
+            {
+                return this.Ok(result);
+            }
+            else
+            {
+                return this.BadRequest();
+            }
         }
-
-        //[HttpPost]
-        //[Route("api/addEmployee")]
-        //public IActionResult AddEmployee(Employee employee)
-        //{
-        //    var result = repository.CreateEmployee();
-        //}
     }
 }
