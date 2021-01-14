@@ -22,6 +22,23 @@ namespace EmployeeRepository
             return message;
         }
 
+        public string LoginIntoSystem(string Email,  string Password)
+        {
+            string message;
+            var Login = this.employeeContext.Employees
+                        .Where(x => x.Email == Email && x.Password == Password).SingleOrDefault();
+            if (Login != null)
+            {
+                message = "LOGIN SUCCESS";
+            }
+            else
+            {
+                message = "LOGIN UNSUCCESSFUL";
+
+            }
+            return message;
+        }
+
         public IEnumerable<Employee> GetEmployee(string id)
         {
             List<Employee> employees = new List<Employee>();

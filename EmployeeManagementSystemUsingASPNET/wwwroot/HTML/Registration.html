@@ -79,7 +79,7 @@
                             <a href="ForgotPassword.html" style="margin-left: 260px; margin-top: 10px;"></a>
                         </div>
                         <div class="buttonContainer">
-                            <a href="Login.html">Login Instead</a>
+                            <a href="Login.html" style="margin: 35px">Login Instead</a>
                             <button type="submit" class="btn btn mr-4" id="btnRegister">Register</button>
                         </div>
                     </form>
@@ -155,11 +155,12 @@
                     type: "POST",
                     url: "/api/addEmployee",
                     data: JSON.stringify(employee),
-                    dataType: "JSON",
-                    contentType: "application/json; charset=utf-8",
+                    dataType: "Json",
+                    contentType: "application/json",
                     processData: true,
                     success: function () {
                         alert("Data has been added successfully.");
+                        window.location.href = "https://localhost:44358/HTML/Login.html";
                         return true;
                     },
                     error: function () {

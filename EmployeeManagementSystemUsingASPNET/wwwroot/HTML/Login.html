@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="/css/CSSMain.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script type="text/javascript" src="/js/Login.js"></script>
     <title>Login</title>
 
 </head>
@@ -17,7 +16,7 @@
             <div class="card">
                 <div class="card-header" style="margin-top: initial; background-color: #20c997">Login</div>
                 <div class="card-body">
-                    <form action="#" method="post" name="LoginForm" onsubmit="return(LoginValidation());">
+                    <form name="LoginForm">
                         <div class="form-group row">
                             <label for="email_address" class="col-md-4 col-form-label text-md-right" style="text-align: left!important; margin-left: 40px">Email Id</label>
                             <div class="col-md-6">
@@ -33,12 +32,51 @@
                         </div>
                         <div class="buttonContainer">
                             <a href="Registration.html" style="margin: 25px">Create Account</a>
-                            <button type="submit" class="btn btn mr-4" style="margin: 25px">Login</button>
+                            <button type="submit" class="btn btn mr-4" style="margin: 25px" id="btnLogin">Login</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnLogin").click(function () {
+                var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+                if (!emailRegex.test(document.LoginForm.email.value)) {
+                    alert("Please provide valid Email!");
+                    document.LoginForm.email.focus();
+                    return false;
+                }
+                if (!passwordRegex.test(document.LoginForm.password.value)) {
+                    alert("Please provide valid password in given format");
+                    document.LoginForm.password.focus();
+                    return false;
+                }
+                var employeeLogin = {};
+                employeeLogin.Email = $("#email").val();
+                employeeLogin.Password = $("#password").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/api/Login",
+                    data: JSON.stringify(employeeLogin),
+                    dataType: "",
+                    contentType: "application/json; charset=utf-8",
+                    processData: true,
+                    success: function () {                       
+                        alert("Login successfully.");
+                        return true;
+                    },
+                    error: function () {
+                        alert("Error while Log in");
+                    }
+                });
+                return false;
+            });
+
+        });
+    </script>
+</body >
+</html >
