@@ -39,11 +39,26 @@ namespace EmployeeRepository
             return message;
         }
 
-        public IEnumerable<Employee> GetEmployee(string id)
+        public IEnumerable<Employee> GetEmployee()
         {
-            List<Employee> employees = new List<Employee>();
-            employees = employeeContext.Employees.ToList();
-            return employees;
+            IEnumerable<Employee> Login = this.employeeContext.Employees;
+            return Login;
+        }
+
+        public string RemoveEmployee(int id)
+        {
+            try
+            {
+                var employee = this.employeeContext.Employees.Find(id);
+                this.employeeContext.Employees.Remove(employee);
+                this.employeeContext.SaveChangesAsync();
+                return "Employee Data Deleted Successfully"; ;
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
+            
         }
 
     }

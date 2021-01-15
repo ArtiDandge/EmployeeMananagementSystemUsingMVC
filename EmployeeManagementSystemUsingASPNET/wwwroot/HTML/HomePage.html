@@ -20,55 +20,70 @@
             <a href="Login.html">Logout</a>
         </div>
     </div>
-    <div class="container">
-        <table class="table" name="EmployeeTable" id="EmplyeeTable">
-            <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Address</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Zip</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
-                    <th>Password</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Arti</td>
-                    <td>Dandge</td>
-                    <td>Pune</td>
-                    <td>Pune</td>
-                    <td>Maharashtra</td>
-                    <td>411001</td>
-                    <td>8765432109</td>
-                    <td>arti@gmail.com</td>
-                    <td>arti12234</td>
-                    <td>
-                        <a href="#"><button type="button" class="btn btn-primary">Edit</button></a>
-                        <a href="#"><button type="button" class="btn btn-danger">Delete</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Komal</td>
-                    <td>Dandge</td>
-                    <td>Mumbai</td>
-                    <td>Mumbai</td>
-                    <td>Maharashtra</td>
-                    <td>411004</td>
-                    <td>7765432109</td>
-                    <td>komal@gmail.com</td>
-                    <td>komal12234</td>
-                    <td>
-                        <a href="#"><button type="button" id="edit" class="btn btn-primary">Edit</button></a>
-                        <a href="#"><button type="button" id="delete" class="btn btn-danger">Delete</button></a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table class="table" name="EmployeeTable" id="EmplyeeTable">
+        <thead>
+            <tr>
+                <th>Sr. No</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th id="action">Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "/api/GetAllEmployee",
+                success: function (data) {
+                    var employeeTable = $("#EmplyeeTable tbody");
+                    $(data).each(function (i, employee) {
+                        employeeTable.append("<tr><td>" + employee.employeeId + "</td><td>"
+                            + employee.firstName + "</td><td>"
+                            + employee.lastName + "</td><td>"
+                            + employee.address + "</td><td>"
+                            + employee.city + "</td><td>"
+                            + employee.state + "</td><td>"
+                            + employee.zip + "</td><td>"
+                            + employee.phoneNumber + "</td><td>"
+                            + employee.email + "</td><td>"
+                            + employee.password +
+                            '</td><td><button type=button id=edit class="btn btn-primary" value=Edit>Edit</button> <button type=button id=delete onclick = DeleteEmployee('+employee.employeeId+') class="btn btn-danger" value=Delete>Delete</button></td></tr>');
+
+                    });
+                }
+            });
+        });
+        function DeleteEmployee(EmployeeId) {
+            $(function () {
+                $("#delete").click(function () {
+                    console.log(EmployeeId)
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/api/DeleteEmployee",
+                        data: { 'id': EmployeeId },
+                        success: function (data) {
+                            alert("Employee Details deleted successfully ! ");
+                            return true;
+                        },
+                        error: function () {
+                            alert("Error while Deleting Employee Details ! ");
+                        }
+                    });
+                });
+           });
+        }
+    </script>
 </body>
 </html>

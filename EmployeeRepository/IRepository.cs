@@ -9,6 +9,7 @@ namespace EmployeeRepository
     {
         public string CreateEmployee(Employee employee);
         public string LoginIntoSystem(string Email, string Password);
-        public IEnumerable<Employee> GetEmployee(string id);
+        public IEnumerable<Employee> GetEmployee();
+        public string RemoveEmployee(int id);
     }
 }
