@@ -73,5 +73,20 @@ namespace EmployeeManagementSystemUsingASPNET.Controllers
                 return this.BadRequest();
             }
         }
+
+        [HttpGet]
+        [Route("api/AnEmployeeDetails")]
+        public IActionResult GetEmployee(int id)
+        {
+            var result = this.repository.GetEmployee(id);
+            if (result  == true )
+            {
+                return this.Ok(new { success = true, Message = "Employee Details fetched successfully", Data = result });
+            }
+            else
+            {
+                return this.BadRequest();
+            }
+        }
     }
 }

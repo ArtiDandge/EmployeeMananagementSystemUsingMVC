@@ -11,6 +11,7 @@ namespace EmployeeRepository
         public string LoginIntoSystem(string Email, string Password);
         public IEnumerable<Employee> GetEmployee();
         public string RemoveEmployee(int id);
-        
+        public bool GetEmployee(int id);
+
     }
 }

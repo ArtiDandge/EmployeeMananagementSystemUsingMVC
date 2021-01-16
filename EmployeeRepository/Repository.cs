@@ -62,5 +62,22 @@ namespace EmployeeRepository
 
         }
 
+        public bool GetEmployee(int id)
+        {
+            bool result;
+            var employee = this.employeeContext.Employees.Find(id);
+            if(employee != null)
+            {
+                result = true;
+                return result; 
+            }
+            else
+            {
+                result = false;
+                return result;
+            }
+        }
+
+
     }
 }
