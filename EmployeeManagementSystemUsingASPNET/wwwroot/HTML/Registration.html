@@ -153,10 +153,10 @@
                 console.log(JSON.stringify(employee));
                 $.ajax({
                     type: "POST",
-                    url: "/api/addEmployee",
+                    url: "/api/Employee",
                     data: JSON.stringify(employee),
-                    dataType: "Json",
-                    contentType: "application/json",
+                    dataType: "",
+                    contentType: "application/json; charset=utf-8",
                     processData: true,
                     success: function () {
                         alert("Data has been added successfully.");

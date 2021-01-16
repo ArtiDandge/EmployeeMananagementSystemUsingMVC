@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using EmployeeModel.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeRepository
 {
-    public class Repository :  IRepository
+    public class Repository : IRepository
     {
         EmployeeContext employeeContext;
         public Repository(EmployeeContext employeeContext)
@@ -54,11 +55,11 @@ namespace EmployeeRepository
                 this.employeeContext.SaveChangesAsync();
                 return "Employee Data Deleted Successfully"; ;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw e;
             }
-            
+
         }
 
     }

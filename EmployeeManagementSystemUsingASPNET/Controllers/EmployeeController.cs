@@ -6,7 +6,6 @@ using System;
 
 namespace EmployeeManagementSystemUsingASPNET.Controllers
 {
-    //[ApiController]
     public class EmployeeController : ControllerBase
     {
         private readonly IRepository repository;
@@ -16,8 +15,7 @@ namespace EmployeeManagementSystemUsingASPNET.Controllers
         }
 
         [HttpPost]
-        //[Produces("application/json")]
-        [Route("api/addEmployee")]
+        [Route("api/Employee")]
         public IActionResult AddEmployee([FromBody]Employee employee)
         {
             var result = this.repository.CreateEmployee(employee);
@@ -32,19 +30,17 @@ namespace EmployeeManagementSystemUsingASPNET.Controllers
         }
 
         [HttpPost]
-        //[Produces("application/json")]
         [Route("api/Login")]
         public IActionResult GetLoginDetails([FromBody] Employee employee)
         {
-           // Employee employee = new Employee();
             var result = this.repository.LoginIntoSystem(employee.Email, employee.Password);
             if (result.Equals("LOGIN SUCCESS"))
             {
-                return this.Ok(result);
+                return this.Ok(new { success = true, Message = "Get All Users successfully", Data = result });
             }
             else
             {
-                return this.BadRequest();
+                return this.BadRequest(new { success = false, Message = "Failed to fetch Employee" });
             }
         }
 
@@ -76,6 +72,6 @@ namespace EmployeeManagementSystemUsingASPNET.Controllers
             {
                 return this.BadRequest();
             }
-         }
+        }
     }
 }
