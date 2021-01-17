@@ -68,7 +68,17 @@ namespace EmployeeRepository
                            .Where(x => x.EmployeeId == id);
             IEnumerable<Employee> result = employee;
             return result;
-        }   
+        }
 
+        public string UpdateEmployee(Employee employee)
+        {
+            if(employee.EmployeeId != 0)
+            {
+                employeeContext.Entry(employee).State = EntityState.Modified;
+            }
+            this.employeeContext.SaveChanges();
+            string message = "SUCCESS";
+            return message;
+        }
     }
 }

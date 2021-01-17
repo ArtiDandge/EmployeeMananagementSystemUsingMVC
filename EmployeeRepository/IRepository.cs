@@ -12,6 +12,6 @@ namespace EmployeeRepository
         public IEnumerable<Employee> GetEmployee();
         public string RemoveEmployee(int id);
         public IEnumerable<Employee> GetEmployee(int id);
-
+        public string UpdateEmployee(Employee employee);
     }
 }

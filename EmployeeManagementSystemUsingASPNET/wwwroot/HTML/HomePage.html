@@ -32,7 +32,6 @@
                 <th>Zip</th>
                 <th>Phone Number</th>
                 <th>Email</th>
-                <th>Password</th>
                 <th id="action">Action</th>
             </tr>
         </thead>
@@ -46,6 +45,13 @@
                     <h4 class="modal-title">Employee Details</h4>
                 </div>
                 <div class="modal-body" style="padding-left: 70px;">
+                    <form name="UpdateEmployeeDetails">
+                        <div class="form-group row">
+                            <label for="Employee-id" class="col-md-4 col-form-label text-md-left">Employee Id</label>
+                            <div class="col-md-6">
+                                <input type="number" id="employeeId" class="form-control" name="employeeId" disabled>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="first-name" class="col-md-4 col-form-label text-md-left">First Name</label>
                             <div class="col-md-6">
@@ -88,9 +94,22 @@
                                 <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" placeholder="Update  phone number">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="email_address" class="col-md-4 col-form-label text-md-left">Email Id</label>
+                            <div class="col-md-6">
+                                <input type="text" id="email" class="form-control" name="email"disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-left">Password</label>
+                            <div class="col-md-6">
+                                <input type="password" id="password" class="form-control" name="password" disabled onkeyup='check();'>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success" id="btnUpdateEmployee">Save</button>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="btnUpdate">Save</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -115,9 +134,8 @@
                             + employee.state + "</td><td>"
                             + employee.zip + "</td><td>"
                             + employee.phoneNumber + "</td><td>"
-                            + employee.email + "</td><td>"
-                            + employee.password +
-                            '</td><td><button type=button id=edit' + employee.employeeId +' class="btn btn-primary" data-toggle="modal" data-target="#updateEmployeeData" onclick= UpdateEmployee(' + employee.employeeId + ') value=Edit >Edit</button> <button type=button id=delete onclick = DeleteEmployee(' + employee.employeeId + ') class="btn btn-danger" value=Delete>Delete</button></td></tr>');
+                            + employee.email + "</td>"
+                            + '<td><button type=button id=edit' + employee.employeeId +' class="btn btn-primary" data-toggle="modal" data-target="#updateEmployeeData" onclick= UpdateEmployee(' + employee.employeeId + ') value=Edit >Edit</button> <button type=button id=delete onclick = DeleteEmployee(' + employee.employeeId + ') class="btn btn-danger" value=Delete>Delete</button></td></tr>');
                     });
                 }
             });
@@ -132,6 +150,7 @@
                         data: { 'id': EmployeeId },
                         success: function (data) {
                             alert("Employee Details deleted successfully ! ");
+                            window.location.href = "https://localhost:44358/HTML/Login.html";
                             return true;
                         },
                         error: function () {
@@ -152,6 +171,7 @@
                         dataType: "Json",
                         success: function (data) {
                             alert("Employee Details Fetched successfully !");
+                            var employeeId = (data[0].employeeId);
                             var empFirstname = (data[0].firstName);
                             var empLastName = (data[0].lastName);
                             var empAddress =  (data[0].address);
@@ -159,7 +179,9 @@
                             var empState =  (data[0].state);
                             var empZip =  (data[0].zip);
                             var empPhoneNumber = (data[0].phoneNumber);
-                            var empEmail =  (data[0].email);
+                            var empEmail = (data[0].email);
+                            var empPassword = (data[0].password);
+                            $("#employeeId").val(employeeId);
                             $("#firstName").val(empFirstname);
                             $("#lastName").val(empLastName);
                             $("#address").val(empAddress);
@@ -168,6 +190,7 @@
                             $("#zip").val(empZip);
                             $("#phoneNumber").val(empPhoneNumber);
                             $("#email").val(empEmail);
+                            $("#password").val(empPassword);
                             return true;
                         },
                         error: function () {
@@ -177,6 +200,80 @@
                 });
             });
         }
+
+
+        $(function () {
+            $("#btnUpdateEmployee").click(function () {
+                var nameRegex = /^[A-Z]{1}[a-zA-Z]{2,}/;
+                var mobileRegex = /^(?:(?:\+|0{0,2})91(\s*|[\-])?|[0]?)?([6789]\d{2}([ -]?)\d{3}([ -]?)\d{4})$/
+
+                if (!nameRegex.test(document.UpdateEmployeeDetails.firstName.value)) {
+                    alert("Please provide your valid  first name! Name should have atleast 3 characters");
+                    document.UpdateEmployeeDetails.firstName.focus();
+                    return false;
+                }
+                if (!nameRegex.test(document.UpdateEmployeeDetails.lastName.value)) {
+                    alert("Please provide your valid  last name! Name should have atleast 3 characters");
+                    document.UpdateEmployeeDetails.lastName.focus();
+                    return false;
+                }
+                if (document.UpdateEmployeeDetails.address.value == "") {
+                    alert("Please provide your valid  City!");
+                    return false;
+                }
+                if (document.UpdateEmployeeDetails.city.value == "") {
+                    alert("Please provide your valid  City!");
+                    return false;
+                }
+                if (document.UpdateEmployeeDetails.state.value == "") {
+                    alert("Please provide your valid  State!");
+                    return false;
+                }
+                if (document.UpdateEmployeeDetails.zip.value == "" ||
+                    isNaN(document.UpdateEmployeeDetails.zip.value) ||
+                    document.UpdateEmployeeDetails.zip.value.length != 6) {
+                    alert("Please provide a valid zip");
+                    document.UpdateEmployeeDetails.zip.focus();
+                    return false;
+                }
+                if (!mobileRegex.test(document.UpdateEmployeeDetails.phoneNumber.value)) {
+                    alert("Please provide a phone Number in the format of 10 digit mobile number. ");
+                    document.UpdateEmployeeDetails.phoneNumber.focus();
+                    return false;
+                }
+
+                var employee = {};
+                employee.EmployeeId = $("#employeeId").val();
+                employee.FirstName = $("#firstName").val();
+                employee.LastName = $("#lastName").val();
+                employee.Address = $("#address").val();
+                employee.City = $("#city").val();
+                employee.State = $("#state").val();
+                employee.Zip = $("#zip").val();
+                employee.PhoneNumber = $("#phoneNumber").val();
+                employee.Email = $("#email").val();
+                employee.Password = $("#password").val();
+                console.log(JSON.stringify(employee.EmployeeId));
+                $.ajax({
+                    type: "POST",
+                    url: "/api/UpdateEmployeeDetails",
+                    data: JSON.stringify(employee),
+                    dataType: "",
+                    contentType: "application/json; charset=utf-8",
+                    processData: true,
+                    success: function () {
+                        alert("Employee Data Updated successfully.");
+                        window.location.href = "https://localhost:44358/HTML/Login.html";
+                        return true;
+                    },
+                    error: function () {
+                        alert("Error while inserting data");
+                    }
+                });
+                return false;
+            });
+        });
+   
     </script>
 </body>
 </html>

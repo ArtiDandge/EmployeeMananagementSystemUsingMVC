@@ -88,5 +88,20 @@ namespace EmployeeManagementSystemUsingASPNET.Controllers
                 return this.BadRequest();
             }
         }
+
+        [HttpPost]
+        [Route("api/UpdateEmployeeDetails")]
+        public IActionResult UpdateEmployeeDetails([FromBody] Employee employee)
+        {
+            var result = this.repository.UpdateEmployee(employee);
+            if (result.Equals("SUCCESS"))
+            {
+                return this.Ok(result);
+            }
+            else
+            {
+                return this.BadRequest();
+            }
+        }
     }
 }
