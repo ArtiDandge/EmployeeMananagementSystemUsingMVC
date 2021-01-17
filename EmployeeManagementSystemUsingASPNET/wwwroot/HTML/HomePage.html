@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Home</title>
@@ -46,7 +46,6 @@
                     <h4 class="modal-title">Employee Details</h4>
                 </div>
                 <div class="modal-body" style="padding-left: 70px;">
-                    <form name="UpdateForm" style="">
                         <div class="form-group row">
                             <label for="first-name" class="col-md-4 col-form-label text-md-left">First Name</label>
                             <div class="col-md-6">
@@ -89,7 +88,6 @@
                                 <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" placeholder="Update  phone number">
                             </div>
                         </div>
-                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="btnUpdate">Save</button>
@@ -119,7 +117,7 @@
                             + employee.phoneNumber + "</td><td>"
                             + employee.email + "</td><td>"
                             + employee.password +
-                            '</td><td><button type=button id=edit class="btn btn-primary"  onclick= UpdateEmployee(' + employee.employeeId + ') value=Edit data-toggle="modal" data-target="#updateEmployeeData">Edit</button> <button type=button id=delete onclick = DeleteEmployee(' + employee.employeeId + ') class="btn btn-danger" value=Delete>Delete</button></td></tr>');
+                            '</td><td><button type=button id=edit' + employee.employeeId +' class="btn btn-primary" data-toggle="modal" data-target="#updateEmployeeData" onclick= UpdateEmployee(' + employee.employeeId + ') value=Edit >Edit</button> <button type=button id=delete onclick = DeleteEmployee(' + employee.employeeId + ') class="btn btn-danger" value=Delete>Delete</button></td></tr>');
                     });
                 }
             });
@@ -143,15 +141,33 @@
                 });
             });
         }
+
         function UpdateEmployee(EmployeeId) {
             $(function () {
-                $("#edit").click(function () {
+                $("#edit" + EmployeeId).click(function () {
                     $.ajax({
                         type: "GET",
                         url: "/api/AnEmployeeDetails",
                         data: { 'id': EmployeeId },
+                        dataType: "Json",
                         success: function (data) {
                             alert("Employee Details Fetched successfully !");
+                            var empFirstname = (data[0].firstName);
+                            var empLastName = (data[0].lastName);
+                            var empAddress =  (data[0].address);
+                            var empCity =  (data[0].city);
+                            var empState =  (data[0].state);
+                            var empZip =  (data[0].zip);
+                            var empPhoneNumber = (data[0].phoneNumber);
+                            var empEmail =  (data[0].email);
+                            $("#firstName").val(empFirstname);
+                            $("#lastName").val(empLastName);
+                            $("#address").val(empAddress);
+                            $("#city").val(empCity);
+                            $("#state").val(empState);
+                            $("#zip").val(empZip);
+                            $("#phoneNumber").val(empPhoneNumber);
+                            $("#email").val(empEmail);
                             return true;
                         },
                         error: function () {

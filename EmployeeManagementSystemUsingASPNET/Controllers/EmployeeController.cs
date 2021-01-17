@@ -78,10 +78,10 @@ namespace EmployeeManagementSystemUsingASPNET.Controllers
         [Route("api/AnEmployeeDetails")]
         public IActionResult GetEmployee(int id)
         {
-            var result = this.repository.GetEmployee(id);
-            if (result  == true )
+            IEnumerable<Employee> result = this.repository.GetEmployee(id);
+            if (result != null )
             {
-                return this.Ok(new { success = true, Message = "Employee Details fetched successfully", Data = result });
+                return this.Ok(result);
             }
             else
             {
