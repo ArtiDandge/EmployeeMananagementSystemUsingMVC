@@ -13,5 +13,6 @@ namespace EmployeeRepository
         public string RemoveEmployee(int id);
         public IEnumerable<Employee> GetEmployee(int id);
         public string UpdateEmployee(Employee employee);
+        public string ForgotPasswordUpdate(string email);
     }
 }

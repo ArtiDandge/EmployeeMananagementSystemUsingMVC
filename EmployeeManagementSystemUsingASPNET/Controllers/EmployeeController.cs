@@ -89,7 +89,7 @@ namespace EmployeeManagementSystemUsingASPNET.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("api/UpdateEmployeeDetails")]
         public IActionResult UpdateEmployeeDetails([FromBody] Employee employee)
         {
@@ -103,5 +103,21 @@ namespace EmployeeManagementSystemUsingASPNET.Controllers
                 return this.BadRequest();
             }
         }
+
+        [HttpPut]
+        [Route("api/UpdateEmployeePassword")]
+        public IActionResult UpdateEmployeePassword(int id, string email)
+        {
+            var result = this.repository.ForgotPasswordUpdate(id, email);
+            if (result.Equals("SUCCESS"))
+            {
+                return this.Ok(result);
+            }
+            else
+            {
+                return this.BadRequest();
+            }
+        }
+
     }
 }

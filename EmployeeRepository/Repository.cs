@@ -80,5 +80,19 @@ namespace EmployeeRepository
             string message = "SUCCESS";
             return message;
         }
+
+        public string ForgotPasswordUpdate(int id, string email)
+        {
+            var employee = this.employeeContext.Employees
+                            .Where(x => x.EmployeeId == id && x.Email == email);
+           if(employee != null)
+            {
+                return "Employee Exist !";
+            }
+            else
+            {
+                return "Employee does not Exist !";
+            }
+        }
     }
 }

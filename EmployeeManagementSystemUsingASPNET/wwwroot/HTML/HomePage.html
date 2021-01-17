@@ -255,7 +255,7 @@
                 employee.Password = $("#password").val();
                 console.log(JSON.stringify(employee.EmployeeId));
                 $.ajax({
-                    type: "POST",
+                    type: "PUT",
                     url: "/api/UpdateEmployeeDetails",
                     data: JSON.stringify(employee),
                     dataType: "",
