@@ -4,9 +4,38 @@ using System.Text;
 using System.Linq;
 using EmployeeModel.Models;
 using Microsoft.EntityFrameworkCore;
+using WebMatrix.WebData;
+using System.Security.Policy;
+using System.Configuration;
+using System.Net.Mail;
+using System.Net;
 
 namespace EmployeeRepository
 {
+    public class EmailManager
+    {
+        public static void AppSettings(out string UserID, out string Password, out string SMTPPort, out string Host)
+        {
+            UserID = ConfigurationManager.AppSettings.Get("UserID");
+            Password = ConfigurationManager.AppSettings.Get("Password");
+            SMTPPort = ConfigurationManager.AppSettings.Get("SMTPPort");
+            Host = ConfigurationManager.AppSettings.Get("Host");
+        }
+        public static void SendEmail(string From, string Subject, string Body, string To, string UserID, string Password, string SMTPPort, string Host)
+        {
+            MailMessage mail = new MailMessage();
+            mail.To.Add(To);
+            mail.From = new MailAddress(From);
+            mail.Subject = Subject;
+            mail.Body = Body;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = Host;
+            smtp.Port = Convert.ToInt16(SMTPPort);
+            smtp.Credentials = new NetworkCredential(UserID, Password);
+            smtp.EnableSsl = true;
+            smtp.Send(mail);
+        }
+    }
     public class Repository : IRepository
     {
         EmployeeContext employeeContext;
@@ -81,17 +110,34 @@ namespace EmployeeRepository
             return message;
         }
 
-        public string ForgotPasswordUpdate(int id, string email)
+        public string ForgotPasswordUpdate(string email)
         {
             var employee = this.employeeContext.Employees
-                            .Where(x => x.EmployeeId == id && x.Email == email);
-           if(employee != null)
+                            .Where(x => x.Email == email);
+            if (employee != null)
             {
-                return "Employee Exist !";
+               return "Employee Exist !";
             }
             else
             {
                 return "Employee does not Exist !";
+            }
+        }
+
+        public string ResetPassword(string oldPassword, string newPassword)
+        {
+            var employeePassword = this.employeeContext.Employees
+                            .SingleOrDefault(x=> x.Password == oldPassword);
+            if (employeePassword != null)
+            {
+                employeePassword.Password = newPassword;
+                employeeContext.Entry(employeePassword).State = EntityState.Modified;
+                employeeContext.SaveChanges();
+                return "Password Reset Successfull ! ";
+            }
+            else
+            {
+                return "Error While Resetting Password !";
             }
         }
     }

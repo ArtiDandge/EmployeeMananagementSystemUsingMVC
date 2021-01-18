@@ -105,11 +105,26 @@ namespace EmployeeManagementSystemUsingASPNET.Controllers
         }
 
         [HttpPut]
-        [Route("api/UpdateEmployeePassword")]
-        public IActionResult UpdateEmployeePassword(int id, string email)
+        [Route("api/ForgotPassword")]
+        public IActionResult UpdateEmployeePassword(string email)
         {
-            var result = this.repository.ForgotPasswordUpdate(id, email);
-            if (result.Equals("SUCCESS"))
+            var result = this.repository.ForgotPasswordUpdate(email);
+            if (result.Equals("Employee Exist !"))
+            {
+                return this.Ok(result);
+            }
+            else
+            {
+                return this.BadRequest();
+            }
+        }
+
+        [HttpPut]
+        [Route("api/ResetPassword")]
+        public IActionResult ResetPassword(string oldPassword, string newPassword)
+        {
+            var result = this.repository.ResetPassword(oldPassword,  newPassword);
+            if (result.Equals("Password Reset Successfull ! "))
             {
                 return this.Ok(result);
             }
