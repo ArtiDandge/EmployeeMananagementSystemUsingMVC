@@ -109,7 +109,7 @@ namespace EmployeeManagementSystemUsingASPNET.Controllers
         public IActionResult UpdateEmployeePassword(string email)
         {
             var result = this.repository.ForgotPasswordUpdate(email);
-            if (result.Equals("Employee Exist !"))
+            if (result.Equals("Mail Sent Successfully !"))
             {
                 return this.Ok(result);
             }
@@ -117,6 +117,7 @@ namespace EmployeeManagementSystemUsingASPNET.Controllers
             {
                 return this.BadRequest();
             }
+
         }
 
         [HttpPut]

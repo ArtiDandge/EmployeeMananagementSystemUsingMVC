@@ -12,30 +12,6 @@ using System.Net;
 
 namespace EmployeeRepository
 {
-    public class EmailManager
-    {
-        public static void AppSettings(out string UserID, out string Password, out string SMTPPort, out string Host)
-        {
-            UserID = ConfigurationManager.AppSettings.Get("UserID");
-            Password = ConfigurationManager.AppSettings.Get("Password");
-            SMTPPort = ConfigurationManager.AppSettings.Get("SMTPPort");
-            Host = ConfigurationManager.AppSettings.Get("Host");
-        }
-        public static void SendEmail(string From, string Subject, string Body, string To, string UserID, string Password, string SMTPPort, string Host)
-        {
-            MailMessage mail = new MailMessage();
-            mail.To.Add(To);
-            mail.From = new MailAddress(From);
-            mail.Subject = Subject;
-            mail.Body = Body;
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = Host;
-            smtp.Port = Convert.ToInt16(SMTPPort);
-            smtp.Credentials = new NetworkCredential(UserID, Password);
-            smtp.EnableSsl = true;
-            smtp.Send(mail);
-        }
-    }
     public class Repository : IRepository
     {
         EmployeeContext employeeContext;
@@ -112,16 +88,33 @@ namespace EmployeeRepository
 
         public string ForgotPasswordUpdate(string email)
         {
-            var employee = this.employeeContext.Employees
-                            .Where(x => x.Email == email);
-            if (employee != null)
+            string employee;
+            string mailSubject = "Your Employee Management Credentials";
+            var employeeCheck = this.employeeContext.Employees
+                            .SingleOrDefault(x => x.Email == email);
+            if (employeeCheck != null)
             {
-               return "Employee Exist !";
+               employee = employeeCheck.Password;
+                using (MailMessage mailMessage = new MailMessage("dartis2512@gmail.com", email))
+                {
+                    mailMessage.Subject = mailSubject;
+                    mailMessage.Body = employee;
+                    mailMessage.IsBodyHtml = true;
+                    SmtpClient Smtp = new SmtpClient();
+                    Smtp.Host = "smtp.gmail.com";
+                    Smtp.EnableSsl = true;
+                    Smtp.UseDefaultCredentials = false;
+                    Smtp.Credentials = new NetworkCredential("dartis2512@gmail.com", "Arti@1234567890");
+                    Smtp.Port = 587;
+                    Smtp.Send(mailMessage);
+                }
+                return "Mail Sent Successfully !";
             }
             else
             {
-                return "Employee does not Exist !";
-            }
+                return "Error while sending mail !";
+            }           
+
         }
 
         public string ResetPassword(string oldPassword, string newPassword)
